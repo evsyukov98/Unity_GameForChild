@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class GameManager_1 : MonoBehaviour
 {
-    // счетчик
-    private int _goal;
+    public int SpawnTime = 3;
+
+    public int CountOfEnemy = 10;
+
+    // счетчик до победы
+    public int Goal;
 
     // животное которое будет генериться
     public List<GameObject> AnimalPrefabs = new List<GameObject>();
@@ -13,27 +17,45 @@ public class GameManager_1 : MonoBehaviour
     // Список позиций для спауна животных.
     public List<Transform> SpawnPoints = new List<Transform>();
 
-    void Start()
+    IEnumerator Start()
     {
         Guide();
 
-        CreateAnimals();
-
+        for (int i = 0; i < CountOfEnemy; i++)
+        {
+            yield return new WaitForSeconds(SpawnTime);
+            CreateAnimals();
+        }
     }
 
-    void Guide()
+    void Update()
     {
-        // Здесь будет обучение игры
+        CatchAnimal();
     }
 
-    //TODO: Нужно добавить flip
     void CreateAnimals()
     {
         int randomAnimal = Random.Range(0, AnimalPrefabs.Count);
 
         Transform spawnPoint = SpawnPoints[Random.Range(0,SpawnPoints.Count)];
 
-        Instantiate(AnimalPrefabs[randomAnimal],spawnPoint);
+        GameObject animal = Instantiate(AnimalPrefabs[randomAnimal],spawnPoint);
+    }
+
+    void CatchAnimal()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector3.back);
+
+            if (hit.collider != null && hit.transform.tag == "Animal")
+            {
+                Goal++;
+                Destroy(hit.transform.gameObject);
+            }
+        }
     }
 
     void GoalOfVictory()
@@ -41,5 +63,10 @@ public class GameManager_1 : MonoBehaviour
         // отслеживание прогресса игры
         // после 5, 10, 20 нажатий на цель
         // будет заканчиваться игра
+    }
+
+    void Guide()
+    {
+        // Здесь будет обучение игры
     }
 }

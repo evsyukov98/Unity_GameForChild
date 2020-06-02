@@ -5,14 +5,14 @@ using UnityEngine;
 public class AnimalBehaviour : MonoBehaviour
 {
     public float Speed;
-    private float waitTime;
+    private float _waitTime;
     public float StartWaitTime;
 
     // список точек куда будет двигаться обьект
     public GameObject[] moveSpots;
 
     // Случайная цифра для рандомизации к точке движения
-    private int randomSpot;
+    private int _randomSpot;
 
     private void Awake()
     {
@@ -20,30 +20,49 @@ public class AnimalBehaviour : MonoBehaviour
     }
     void Start()
     {
-        waitTime = StartWaitTime;
-        randomSpot = Random.Range(0, moveSpots.Length);
+        _waitTime = StartWaitTime;
+        _randomSpot = Random.Range(0, moveSpots.Length);
     }
 
     void Update()
     {
+        MoveToBush();
+    }
+
+    void MoveToBush()
+    {
         transform.position = Vector2.MoveTowards(
             transform.position,
-            moveSpots[randomSpot].transform.position, 
-            Speed* Time.deltaTime);
+            moveSpots[_randomSpot].transform.position,
+            Speed * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, moveSpots[randomSpot].transform.position) < 0.2f)
+        if (Vector2.Distance(transform.position, moveSpots[_randomSpot].transform.position) < 0.2f)
         {
-            if (waitTime <= 0)
+            if (_waitTime <= 0)
             {
-                randomSpot = Random.Range(0, moveSpots.Length);
-                waitTime = StartWaitTime;
+                _randomSpot = Random.Range(0, moveSpots.Length);
+                _waitTime = StartWaitTime;
             }
             else
             {
-                waitTime -= Time.deltaTime;
+                _waitTime -= Time.deltaTime;
             }
         }
     }
 
-    
+    //public void GoalUP()
+    //{
+    //    GameObject gameObject = GameObject.FindGameObjectWithTag("GameManager");
+
+    //    GameManager_1 gameManager_1 = gameObject.GetComponent<GameManager_1>();
+
+    //    gameManager_1.Goal++;
+    //}
+
+    //private void OnMouseDown()
+    //{
+    //    GoalUP();
+    //    Destroy(this.gameObject);
+    //}
+
 }
