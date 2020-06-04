@@ -3,8 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class NextScene : MonoBehaviour
 {
+    public int NumberOfScene;
+
     public void Next()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(NumberOfScene);
     }
 }

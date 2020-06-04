@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager_1 : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class GameManager_1 : MonoBehaviour
 
     public int CountOfEnemy = 10;
 
-    // счетчик до победы
     public int Goal;
+
+    public GameObject VictoryText;
 
     // животное которое будет генериться
     public List<GameObject> AnimalPrefabs = new List<GameObject>();
@@ -31,6 +33,8 @@ public class GameManager_1 : MonoBehaviour
     void Update()
     {
         CatchAnimal();
+
+        Victory();
     }
 
     void CreateAnimals()
@@ -58,11 +62,13 @@ public class GameManager_1 : MonoBehaviour
         }
     }
 
-    void GoalOfVictory()
+    void Victory()
     {
-        // отслеживание прогресса игры
-        // после 5, 10, 20 нажатий на цель
-        // будет заканчиваться игра
+        if (Goal == 10)
+        {
+            Text victory = VictoryText.GetComponent<Text>();
+            victory.enabled = true;
+        }
     }
 
     void Guide()

@@ -50,19 +50,4 @@ public class AnimalBehaviour : MonoBehaviour
         }
     }
 
-    //public void GoalUP()
-    //{
-    //    GameObject gameObject = GameObject.FindGameObjectWithTag("GameManager");
-
-    //    GameManager_1 gameManager_1 = gameObject.GetComponent<GameManager_1>();
-
-    //    gameManager_1.Goal++;
-    //}
-
-    //private void OnMouseDown()
-    //{
-    //    GoalUP();
-    //    Destroy(this.gameObject);
-    //}
-
 }
