@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class GameManager_2 : MonoBehaviour
 {
-    public Spot spot_1;
-    public Spot spot_2;
-    public Spot spot_3;
-    public Spot spot_4;
+    public ItemSlot slot_1;
+    public ItemSlot slot_2;
+    public ItemSlot slot_3;
+    public ItemSlot slot_4;
+
+    public Transform item_1;
+
+    public Transform item_2;
+
+    public Transform item_3;
+
+    public Transform item_4;
 
     void Start()
     {
         SpotFill();
 
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         
-    }
-
-    private void Victory()
-    {
-        // будут сравниваться на корректность
-        // классы Spot которые 
     }
 
     private void SpotFill()
@@ -40,15 +42,18 @@ public class GameManager_2 : MonoBehaviour
             currentMass = RandomMass();
         }
 
-        spot_1.correctObject = correctMass[0];
-        spot_2.correctObject = correctMass[1];
-        spot_3.correctObject = correctMass[2];
-        spot_4.correctObject = correctMass[3];
+        slot_1.correctObject = correctMass[0];
+        slot_2.correctObject = correctMass[1];
+        slot_3.correctObject = correctMass[2];
+        slot_4.correctObject = correctMass[3];
 
-        spot_1.currentObject = currentMass[0];
-        spot_2.currentObject = currentMass[1];
-        spot_3.currentObject = currentMass[2];
-        spot_4.currentObject = currentMass[3];
+        
+        slot_1.currentObject = currentMass[0];
+        slot_2.currentObject = currentMass[1];
+        slot_3.currentObject = currentMass[2];
+        slot_4.currentObject = currentMass[3];
+
+        
     }
 
     private int[] RandomMass()
