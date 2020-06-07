@@ -9,31 +9,37 @@ public class ItemSlot : MonoBehaviour
 
     public int correctObject;
 
-    public Transform Object_1;
+    public Transform ItemPrefab_1;
 
-    public Transform Object_2;
+    public Transform ItemPrefab_2;
 
-    public Transform Object_3;
+    public Transform ItemPrefab_3;
 
-    public Transform Object_4;
-
+    public Transform ItemPrefab_4;
 
     private void Start()
     {
         switch (currentObject)
         {
             case 1:
-                //Instantiate(Object_1, transform);
+                Instantiate(ItemPrefab_1, transform).GetComponent<DragItem>().ItemID =1;
                 break;
             case 2:
-                Instantiate(Object_2, transform);
+                Instantiate(ItemPrefab_2, transform).GetComponent<DragItem>().ItemID = 2;
                 break;
             case 3:
-                Instantiate(Object_3, transform);
+                Instantiate(ItemPrefab_3, transform).GetComponent<DragItem>().ItemID = 3;
                 break;
             case 4:
-                Instantiate(Object_4, transform);
+                Instantiate(ItemPrefab_4, transform).GetComponent<DragItem>().ItemID = 4;
                 break;
         }
     }
+
+    private void Update()
+    {
+        
+    }
+
+
 }
