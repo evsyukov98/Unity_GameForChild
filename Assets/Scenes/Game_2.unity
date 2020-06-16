@@ -495,10 +495,6 @@ MonoBehaviour:
   slot_2: {fileID: 1765625586}
   slot_3: {fileID: 1650831989}
   slot_4: {fileID: 1796726843}
-  item_1: {fileID: 937115459825538600, guid: 4628765e56d653243a176e10b69360b9, type: 3}
-  item_2: {fileID: 4102064102970703518, guid: a2225d7d69775194cacff96501a07b90, type: 3}
-  item_3: {fileID: 6353205522587546644, guid: 74b75f707d101794eaa6223cd5601800, type: 3}
-  item_4: {fileID: 9093255408176224884, guid: 442a71c22aacef741a6290f840f0e284, type: 3}
 --- !u!1 &992479326
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +652,7 @@ GameObject:
   - component: {fileID: 1650831992}
   - component: {fileID: 1650831989}
   m_Layer: 5
-  m_Name: ItemSlot (3)
+  m_Name: ItemSlot (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -674,7 +670,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810045287}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.3657292, y: 0.28033337}
   m_AnchorMax: {x: 0.46516672, y: 0.46}
@@ -874,7 +870,7 @@ GameObject:
   - component: {fileID: 1765625589}
   - component: {fileID: 1765625586}
   m_Layer: 5
-  m_Name: ItemSlot (2)
+  m_Name: ItemSlot (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -892,7 +888,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810045287}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.57500005, y: 0.28033337}
   m_AnchorMax: {x: 0.6745625, y: 0.46}
@@ -1106,8 +1102,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1661934912}
-  - {fileID: 1765625585}
   - {fileID: 1650831988}
+  - {fileID: 1765625585}
   - {fileID: 1796726842}
   m_Father: {fileID: 232855831}
   m_RootOrder: 1

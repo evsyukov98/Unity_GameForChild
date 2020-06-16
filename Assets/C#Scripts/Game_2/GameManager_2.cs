@@ -11,23 +11,31 @@ public class GameManager_2 : MonoBehaviour
 
     void Start()
     {
-        SpotFill();
-
-
+        SlotFill();
     }
 
     void Update()
     {
-        if (slot_1.correctObject == slot_1.GetComponentInChildren<DragItem>().ItemID &&
-            slot_2.correctObject == slot_2.GetComponentInChildren<DragItem>().ItemID &&
-            slot_3.correctObject == slot_3.GetComponentInChildren<DragItem>().ItemID &&
-            slot_4.correctObject == slot_4.GetComponentInChildren<DragItem>().ItemID)
+        if (slot_1.GetComponentInChildren<DragItem>() != null &&
+            slot_2.GetComponentInChildren<DragItem>() != null &&
+            slot_3.GetComponentInChildren<DragItem>() != null &&
+            slot_4.GetComponentInChildren<DragItem>()!= null)
         {
-            Debug.Log("Youwin");
+            if (slot_1.correctObject ==
+                slot_1.GetComponentInChildren<DragItem>().ItemID &&
+                slot_2.correctObject ==
+                slot_2.GetComponentInChildren<DragItem>().ItemID &&
+                slot_3.correctObject ==
+                slot_3.GetComponentInChildren<DragItem>().ItemID &&
+                slot_4.correctObject ==
+                slot_4.GetComponentInChildren<DragItem>().ItemID)
+            {
+                Debug.Log("You win!!");
+            }
         }
     }
 
-    private void SpotFill()
+    private void SlotFill()
     {
         int[] correctMass = new int[4];
         correctMass = RandomMass();
