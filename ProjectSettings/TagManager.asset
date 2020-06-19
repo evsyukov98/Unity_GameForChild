@@ -8,6 +8,7 @@ TagManager:
   - GameManager
   - Animal
   - DragLayer
+  - WrongAnimal
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,7 @@ public class GameManager_3 : MonoBehaviour
 
     private void Update()
     {
-        
+        CatchAnimal();
     }
 
     private void Start()
@@ -34,10 +34,27 @@ public class GameManager_3 : MonoBehaviour
             if (randSlot == i)
             {
                 slots[i].CreatePrefab((ItemSlot_3.prefabType)randWrongType,i);
+
+                slots[i].currentPrefab.tag = "WrongAnimal";
                 continue;
             }
 
             slots[i].CreatePrefab((ItemSlot_3.prefabType) randCorrectType, i);
+        }
+    }
+
+    void CatchAnimal()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            RaycastHit2D hit = Physics2D.Raycast(ray, Vector3.back);
+
+            if (hit.collider != null && hit.transform.tag == "WrongAnimal")
+            {
+                Debug.Log("You win");
+            }
         }
     }
 }

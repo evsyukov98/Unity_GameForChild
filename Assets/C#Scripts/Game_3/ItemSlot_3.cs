@@ -38,6 +38,7 @@ public class ItemSlot_3 : MonoBehaviour
             case prefabType.CorrectWater:
                 currentPrefab = Instantiate(correctPrefabsWater[numberOfPrefab], transform);
                 break;
+
             case prefabType.CorrectInsect:
                 currentPrefab = Instantiate(correctPrefabInsect[numberOfPrefab], transform);
                 break;

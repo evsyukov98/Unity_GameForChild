@@ -9,4 +9,9 @@ public class NextScene : MonoBehaviour
     {
         SceneManager.LoadScene(NumberOfScene);
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
