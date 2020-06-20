@@ -35,7 +35,7 @@ public class ItemSlot : MonoBehaviour
                 tempPrefab = null;
                 break;
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(GameManager_2.StartDelayTime);
 
         if (tempPrefab != null)
         {

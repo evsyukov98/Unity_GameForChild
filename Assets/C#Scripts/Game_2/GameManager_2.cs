@@ -1,6 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameManager_2 : MonoBehaviour
 {
@@ -9,9 +10,30 @@ public class GameManager_2 : MonoBehaviour
     public ItemSlot slot_3;
     public ItemSlot slot_4;
 
-    void Start()
+    public static int StartDelayTime = 4;
+
+    public Transform StartText;
+
+    public Transform TimerText;
+
+    public Transform WinText;
+
+    public bool endGame = false;
+
+    private IEnumerator Start()
     {
         SlotFill();
+
+        yield return new WaitForSeconds(1);
+        TimerText.GetComponent<Text>().text = "3";
+        yield return new WaitForSeconds(1);
+        TimerText.GetComponent<Text>().text = "2";
+        yield return new WaitForSeconds(1);
+        TimerText.GetComponent<Text>().text = "1";
+        yield return new WaitForSeconds(1);
+        TimerText.GetComponent<Text>().text = "";
+
+        StartText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -30,9 +52,18 @@ public class GameManager_2 : MonoBehaviour
                 slot_4.correctObject ==
                 slot_4.GetComponentInChildren<DragItem>().ItemID)
             {
-                Debug.Log("You win!!");
+                if (endGame == false)
+                {
+                    endGame = true;
+                    EndGame();
+                }
             }
         }
+    }
+
+    private void EndGame()
+    {
+        WinText.gameObject.SetActive(true);
     }
 
     private void SlotFill()
@@ -81,7 +112,8 @@ public class GameManager_2 : MonoBehaviour
                 }
             }
         }
-
         return newMass;
     }
+
+
 }
