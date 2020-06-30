@@ -67,7 +67,6 @@ public class DragItem : MonoBehaviour , IDragHandler, IBeginDragHandler,IEndDrag
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
 
-
         // если мы промахулись т.е. новый родитель не назначен
         if (Slot == null)
         {

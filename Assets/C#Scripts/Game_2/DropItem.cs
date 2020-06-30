@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class DropItem : MonoBehaviour, IDropHandler
 {
-    // если чтото упало сюда,
     public void OnDrop(PointerEventData eventData)
     {
         // взять предмет который сечас перемещается
@@ -18,14 +17,13 @@ public class DropItem : MonoBehaviour, IDropHandler
         var childrens = transform.GetComponentsInChildren<DragItem>();
 
         // если обьект перемещается и у этого обьекта нет детей
-        if (item != null && transform.childCount ==0)
+        if (item != null && transform.childCount == 0)
         {
             item.SetItemToSlot(transform);
         }
         // если есть дети 
-        else if (item != null && childrens.Length >0)
+        else if (item != null && childrens.Length > 0)
         {
-            //
             var slot = item.currentSlot;
             childrens[0].SetItemToSlot(slot);
             item.SetItemToSlot(transform);

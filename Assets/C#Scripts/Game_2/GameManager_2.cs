@@ -1,98 +1,206 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class GameManager_2 : MonoBehaviour
 {
-    public ItemSlot slot_1;
-    public ItemSlot slot_2;
-    public ItemSlot slot_3;
-    public ItemSlot slot_4;
+    /// <summary>
+    /// Все игровые слоты
+    /// </summary>
+    [SerializeField] private List<ItemSlot_2> _itemSlots;
 
-    public static int StartDelayTime = 4;
+    /// <summary>
+    /// Слоты которые используются в данной сложности
+    /// </summary>
+    private List<ItemSlot_2> _usingSlots;
 
-    public Transform StartText;
+    /// <summary>
+    /// Время таймера
+    /// </summary>
+    public static readonly int StartDelayTime = 4;
 
-    public Transform TimerText;
+    /// <summary>
+    /// Вступительное текстовое поле
+    /// </summary>
+    [SerializeField] private Transform _startText;
 
-    public Transform WinText;
+    /// <summary>
+    /// Текстовое поле таймера
+    /// </summary>
+    [SerializeField] private Transform _timerText;
 
-    public bool endGame = false;
+    /// <summary>
+    /// Текстовое поле победы
+    /// </summary>
+    [SerializeField] private Transform _winText;
 
-    private IEnumerator Start()
+    /// <summary>
+    /// Переменная для проверки конца игры 
+    /// </summary>
+    private bool _endGame = false;
+
+    /// <summary>
+    /// Полотно хранит выбор уровня
+    /// </summary>
+    [SerializeField] private Transform _difficultyCanvas;
+
+    /// <summary>
+    /// Сложность
+    /// </summary>
+    private int _difficulty = 4;
+
+    /// <summary>
+    /// Установка сложности
+    /// </summary>
+    /// <param name="difficulty">от 3 до 6</param>
+    public void SetDifficulty(int difficulty)
     {
-        SlotFill();
+        if (difficulty < 3)
+        {
+            _difficulty = 3;
+            return;
+        }
 
-        yield return new WaitForSeconds(1);
-        TimerText.GetComponent<Text>().text = "3";
-        yield return new WaitForSeconds(1);
-        TimerText.GetComponent<Text>().text = "2";
-        yield return new WaitForSeconds(1);
-        TimerText.GetComponent<Text>().text = "1";
-        yield return new WaitForSeconds(1);
-        TimerText.GetComponent<Text>().text = "";
+        if (difficulty > 6)
+        {
+            _difficulty = 6;
+            return;
+        }
 
-        StartText.gameObject.SetActive(false);
+        _difficulty = difficulty;
+        Debug.Log("Сложность выбрана" + _difficulty);
+    }
+
+    private void Awake()
+    {
+        _usingSlots = new List<ItemSlot_2>();
+
+        for (int i = 0; i < _difficulty; i++)
+        {
+            _usingSlots.Add(_itemSlots[i]);
+        }
+
+        SlotFill(_difficulty);
+
+        StartCoroutine(StartTextManager());
     }
 
     void Update()
     {
-        if (slot_1.GetComponentInChildren<DragItem>() != null &&
-            slot_2.GetComponentInChildren<DragItem>() != null &&
-            slot_3.GetComponentInChildren<DragItem>() != null &&
-            slot_4.GetComponentInChildren<DragItem>()!= null)
+        StartCoroutine(EndGameCheker());
+    }
+
+    /// <summary>
+    /// Проверка на конец игры
+    /// </summary>
+    private IEnumerator EndGameCheker()
+    {
+        int slotsCount = _difficulty;
+
+        foreach (ItemSlot_2 item in _usingSlots)
         {
-            if (slot_1.correctObject ==
-                slot_1.GetComponentInChildren<DragItem>().ItemID &&
-                slot_2.correctObject ==
-                slot_2.GetComponentInChildren<DragItem>().ItemID &&
-                slot_3.correctObject ==
-                slot_3.GetComponentInChildren<DragItem>().ItemID &&
-                slot_4.correctObject ==
-                slot_4.GetComponentInChildren<DragItem>().ItemID)
+            if (item.GetComponentInChildren<DragItem>() != null)
             {
-                if (endGame == false)
+                if (item.CorrectObject ==
+                    item.GetComponentInChildren<DragItem>().ItemID)
                 {
-                    endGame = true;
-                    EndGame();
+                    slotsCount--;
                 }
             }
         }
+
+        if (slotsCount == 0 && _endGame == false)
+        {
+            _endGame = true;
+
+            _winText.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(2);
+
+            _difficultyCanvas.gameObject.SetActive(true);
+        }
     }
 
-    private void EndGame()
+    /// <summary>
+    /// Перезагрузить игру
+    /// </summary>
+    /// <returns></returns>
+    public void RestartGame(int difficulty)
     {
-        WinText.gameObject.SetActive(true);
+        SetDifficulty(difficulty);
+
+        Awake();
+        
+        _difficultyCanvas.gameObject.SetActive(false);
+
+        foreach (ItemSlot_2 item in _itemSlots)
+        {
+            item.DestroyCreatedPrefab();
+        }
+
+        foreach (ItemSlot_2 item in _usingSlots)
+        {
+            StartCoroutine(item.ReStart());
+        }
+
+        _endGame = false;
+
+        _winText.gameObject.SetActive(false);
     }
 
-    private void SlotFill()
+    /// <summary>
+    /// Начальные текста
+    /// </summary>
+    private IEnumerator StartTextManager()
     {
-        int[] correctMass = new int[4];
-        correctMass = RandomMass();
+        _timerText.GetComponent<Text>().text = Convert.ToString(StartDelayTime);
 
-        int[] currentMass = new int[4];
-        currentMass = RandomMass();
+        for (int i = StartDelayTime; i != 0; i--)
+        {
+            yield return new WaitForSeconds(1);
+
+            _timerText.GetComponent<Text>().text = Convert.ToString(i - 1);
+        }
+
+        _timerText.GetComponent<Text>().text = "";
+
+        _startText.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Выдает слотам данные о их обьектах (Prefab)
+    /// </summary>
+    /// <param name="massSize">Кол-во необходимых к заполнению слотов</param>
+    private void SlotFill(int massSize)
+    {
+        int[] correctMass = RandomMass(massSize);
+
+        int[] currentMass = RandomMass(massSize);
 
         while (correctMass == currentMass)
         {
-            currentMass = RandomMass();
+            currentMass = RandomMass(massSize);
         }
 
-        slot_1.correctObject = correctMass[0];
-        slot_2.correctObject = correctMass[1];
-        slot_3.correctObject = correctMass[2];
-        slot_4.correctObject = correctMass[3];
+        for (int i = 0; i < _usingSlots.Count; i++)
+        {
+            _usingSlots[i].CorrectObject = correctMass[i];
 
-        slot_1.currentObject = currentMass[0];
-        slot_2.currentObject = currentMass[1];
-        slot_3.currentObject = currentMass[2];
-        slot_4.currentObject = currentMass[3];
+            _usingSlots[i].CurrentObject = currentMass[i];
+        }
     }
 
-    private int[] RandomMass()
+    /// <summary>
+    /// Возвращает рандомный массив
+    /// </summary>
+    /// <param name="size">размеры массива</param>
+    private int[] RandomMass(int size)
     {
-        int[] newMass = new int[4];
+        int[] newMass = new int[size];
 
         for (int i = 0; i < newMass.Length; i++)
         {
@@ -100,20 +208,24 @@ public class GameManager_2 : MonoBehaviour
 
             while (newNumber == true)
             {
-                int randomInt = Random.Range(1, 4+1);
+                int massSize = size;
 
-                if (newMass[0] != randomInt &&
-                    newMass[1] != randomInt &&
-                    newMass[2] != randomInt &&
-                    newMass[3] != randomInt)
+                int randomInt = Random.Range(1, size+1);
+
+                foreach (int element in newMass)
                 {
-                    newMass[i] = randomInt;
-                    newNumber = false;
+                    if (element != randomInt)
+                    {
+                        massSize--;
+                        if (massSize == 0)
+                        {
+                            newMass[i] = randomInt;
+                            newNumber = false;
+                        }
+                    }
                 }
             }
         }
         return newMass;
     }
-
-
 }
