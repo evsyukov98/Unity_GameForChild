@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7745738644211737089}
   m_Layer: 0
   m_Name: Pink_Monster
-  m_TagString: Animal
+  m_TagString: WrongAnimal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 6
   StartWaitTime: 2
-  moveSpots: []
+  _moveSpots: []
 --- !u!61 &-7745738644211737089
 BoxCollider2D:
   m_ObjectHideFlags: 0

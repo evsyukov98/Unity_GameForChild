@@ -5,29 +5,37 @@ using UnityEngine.UI;
 
 public class GameManager_1 : MonoBehaviour
 {
-    public int SpawnTime = 3;
+    private int _spawnTime = 1;
 
-    public int CountOfEnemy = 10;
+    private int _startDelayTime = 3;
 
-    public int Goal;
+    private int _countOfEnemy = 7;
+
+    private int _goal = 0;
 
     public GameObject VictoryText;
 
-    // животное которое будет генериться
-    public List<GameObject> AnimalPrefabs = new List<GameObject>();
+    public GameObject EnemyPrefab;
 
-    // Список позиций для спауна животных.
+    public GameObject FakePrefab;
+
+    public List<Sprite> AllSprites;
+
+    private int _enemySpriteNumber;
+
+    public List<int> OtherSpriteNumbers;
+
     public List<Transform> SpawnPoints = new List<Transform>();
 
-    IEnumerator Start()
-    {
-        Guide();
+    public Transform GuideImage;
 
-        for (int i = 0; i < CountOfEnemy; i++)
-        {
-            yield return new WaitForSeconds(SpawnTime);
-            CreateAnimals();
-        }
+    void Start()
+    {
+        RandomImageHandler();
+
+        StartCoroutine(Guide());
+
+        StartCoroutine(CreateAllUnits());
     }
 
     void Update()
@@ -37,13 +45,51 @@ public class GameManager_1 : MonoBehaviour
         Victory();
     }
 
-    void CreateAnimals()
+    IEnumerator CreateAllUnits()
     {
-        int randomAnimal = Random.Range(0, AnimalPrefabs.Count);
+        yield return new WaitForSeconds(_startDelayTime);
 
+        for (int i = 0; i < _countOfEnemy; i++)
+        {
+            yield return new WaitForSeconds(_spawnTime);
+            CreateEnemy();
+            CreateFake();
+        }
+    }
+
+    void RandomImageHandler()
+    {
+        _enemySpriteNumber = Random.Range(0, AllSprites.Count);
+
+        for (int i= 0 ; i < AllSprites.Count; i++)
+        {
+            int randomInt = i;
+
+            if (_enemySpriteNumber != randomInt)
+            {
+                OtherSpriteNumbers.Add(randomInt);
+            }
+        }
+    }
+
+    void CreateEnemy()
+    {
         Transform spawnPoint = SpawnPoints[Random.Range(0,SpawnPoints.Count)];
 
-        GameObject animal = Instantiate(AnimalPrefabs[randomAnimal],spawnPoint);
+        GameObject animal = Instantiate(EnemyPrefab,spawnPoint);
+
+        animal.GetComponent<SpriteRenderer>().sprite = 
+            AllSprites[_enemySpriteNumber];
+    }
+
+    void CreateFake()
+    {
+        Transform spawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Count)];
+
+        GameObject animal = Instantiate(FakePrefab, spawnPoint);
+
+        animal.GetComponent<SpriteRenderer>().sprite =
+            AllSprites[OtherSpriteNumbers[Random.Range(0,OtherSpriteNumbers.Count)]];
     }
 
     void CatchAnimal()
@@ -56,7 +102,7 @@ public class GameManager_1 : MonoBehaviour
 
             if (hit.collider != null && hit.transform.tag == "Animal")
             {
-                Goal++;
+                _goal++;
                 Destroy(hit.transform.gameObject);
             }
         }
@@ -64,15 +110,21 @@ public class GameManager_1 : MonoBehaviour
 
     void Victory()
     {
-        if (Goal == 10)
+        if (_goal == _countOfEnemy)
         {
-            Text victory = VictoryText.GetComponent<Text>();
-            victory.enabled = true;
+            VictoryText.gameObject.SetActive(true);
         }
     }
 
-    void Guide()
+    IEnumerator Guide()
     {
-        // Здесь будет обучение игры
+        GuideImage.GetComponent<Image>().sprite =
+            AllSprites[_enemySpriteNumber];
+        GuideImage.GetComponent<Image>().preserveAspect = true;
+
+        yield return new WaitForSeconds(_startDelayTime);
+
+        GuideImage.gameObject.SetActive(false);
+
     }
 }

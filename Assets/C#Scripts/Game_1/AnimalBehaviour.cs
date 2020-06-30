@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AnimalBehaviour : MonoBehaviour
 {
@@ -9,19 +7,19 @@ public class AnimalBehaviour : MonoBehaviour
     public float StartWaitTime;
 
     // список точек куда будет двигаться обьект
-    public GameObject[] moveSpots;
+    public GameObject[] _moveSpots;
 
     // Случайная цифра для рандомизации к точке движения
     private int _randomSpot;
 
     private void Awake()
     {
-        moveSpots = GameObject.FindGameObjectsWithTag("Bush");
+        _moveSpots = GameObject.FindGameObjectsWithTag("Bush");
     }
     void Start()
     {
         _waitTime = StartWaitTime;
-        _randomSpot = Random.Range(0, moveSpots.Length);
+        _randomSpot = Random.Range(0, _moveSpots.Length);
     }
 
     void Update()
@@ -33,14 +31,19 @@ public class AnimalBehaviour : MonoBehaviour
     {
         transform.position = Vector2.MoveTowards(
             transform.position,
-            moveSpots[_randomSpot].transform.position,
+            _moveSpots[_randomSpot].transform.position,
             Speed * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, moveSpots[_randomSpot].transform.position) < 0.2f)
+        
+
+        float moveDir = transform.position.y -
+                  _moveSpots[_randomSpot].transform.position.y;
+
+        if (Vector2.Distance(transform.position, _moveSpots[_randomSpot].transform.position) < 0.2f)
         {
             if (_waitTime <= 0)
             {
-                _randomSpot = Random.Range(0, moveSpots.Length);
+                _randomSpot = Random.Range(0, _moveSpots.Length);
                 _waitTime = StartWaitTime;
             }
             else
@@ -49,5 +52,4 @@ public class AnimalBehaviour : MonoBehaviour
             }
         }
     }
-
 }
