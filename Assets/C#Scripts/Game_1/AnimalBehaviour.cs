@@ -2,14 +2,12 @@
 
 public class AnimalBehaviour : MonoBehaviour
 {
-    public float Speed;
+    [SerializeField] private float _speed =5;
     private float _waitTime;
-    public float StartWaitTime;
+    [SerializeField] private float _startWaitTime = 2;
 
-    // список точек куда будет двигаться обьект
-    public GameObject[] _moveSpots;
+    private GameObject[] _moveSpots;
 
-    // Случайная цифра для рандомизации к точке движения
     private int _randomSpot;
 
     private void Awake()
@@ -18,7 +16,7 @@ public class AnimalBehaviour : MonoBehaviour
     }
     void Start()
     {
-        _waitTime = StartWaitTime;
+        _waitTime = _startWaitTime;
         _randomSpot = Random.Range(0, _moveSpots.Length);
     }
 
@@ -32,7 +30,7 @@ public class AnimalBehaviour : MonoBehaviour
         transform.position = Vector2.MoveTowards(
             transform.position,
             _moveSpots[_randomSpot].transform.position,
-            Speed * Time.deltaTime);
+            _speed * Time.deltaTime);
 
         
 
@@ -44,7 +42,7 @@ public class AnimalBehaviour : MonoBehaviour
             if (_waitTime <= 0)
             {
                 _randomSpot = Random.Range(0, _moveSpots.Length);
-                _waitTime = StartWaitTime;
+                _waitTime = _startWaitTime;
             }
             else
             {

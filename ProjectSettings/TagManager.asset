@@ -9,6 +9,8 @@ TagManager:
   - Animal
   - DragLayer
   - WrongAnimal
+  - MainMusic
+  - CorrectAnimal
   layers:
   - Default
   - TransparentFX

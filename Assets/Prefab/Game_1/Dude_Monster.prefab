@@ -95,9 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ca845e196d29a4a90b3288788605cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 6
-  StartWaitTime: 2
-  moveSpots: []
+  _speed: 40
+  _startWaitTime: 0.5
+  _moveSpots: []
 --- !u!61 &-7496565960308080156
 BoxCollider2D:
   m_ObjectHideFlags: 0

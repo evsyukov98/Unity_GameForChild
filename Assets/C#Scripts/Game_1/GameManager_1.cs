@@ -29,6 +29,8 @@ public class GameManager_1 : MonoBehaviour
 
     public Transform GuideImage;
 
+    private AudioSource _audioSource;
+
     void Start()
     {
         RandomImageHandler();
@@ -36,6 +38,8 @@ public class GameManager_1 : MonoBehaviour
         StartCoroutine(Guide());
 
         StartCoroutine(CreateAllUnits());
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -104,6 +108,7 @@ public class GameManager_1 : MonoBehaviour
             {
                 _goal++;
                 Destroy(hit.transform.gameObject);
+                _audioSource.Play();
             }
         }
     }

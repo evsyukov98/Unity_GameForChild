@@ -7,7 +7,7 @@ public class DragItem : MonoBehaviour , IDragHandler, IBeginDragHandler,IEndDrag
 {
     public int ItemID;
 
-    private CanvasGroup canvasGroup;
+    private CanvasGroup _canvasGroup;
 
     public static DragItem dragItem;
 
@@ -21,9 +21,12 @@ public class DragItem : MonoBehaviour , IDragHandler, IBeginDragHandler,IEndDrag
 
     public Transform currentSlot;
 
+    private AudioSource _audioSource;
+
     private void Start()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        _canvasGroup = GetComponent<CanvasGroup>();
+        _audioSource = GetComponent<AudioSource>();
 
         dragLayer = GameObject.FindGameObjectWithTag("DragLayer").GetComponent<RectTransform>();
         currentSlot = transform.parent;
@@ -52,8 +55,8 @@ public class DragItem : MonoBehaviour , IDragHandler, IBeginDragHandler,IEndDrag
         // в  дальшейшем могут быть проблемы
         // если на тебя будут падать другие обьекты
         #endregion
-        canvasGroup.blocksRaycasts = false;
-        canvasGroup.alpha = 0.6f;
+        _canvasGroup.blocksRaycasts = false;
+        _canvasGroup.alpha = 0.6f;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -64,8 +67,8 @@ public class DragItem : MonoBehaviour , IDragHandler, IBeginDragHandler,IEndDrag
     public void OnEndDrag(PointerEventData eventData)
     {
         dragItem = null;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1f;
+        _canvasGroup.blocksRaycasts = true;
+        _canvasGroup.alpha = 1f;
 
         // если мы промахулись т.е. новый родитель не назначен
         if (Slot == null)
@@ -75,6 +78,8 @@ public class DragItem : MonoBehaviour , IDragHandler, IBeginDragHandler,IEndDrag
         }
 
         Slot = null;
+        _audioSource.Play();
+
     }
 
     public void SetItemToSlot(Transform slot)

@@ -4,43 +4,43 @@ using UnityEngine;
 
 public class ItemSlot_3 : MonoBehaviour
 {
-    public enum prefabType
+    public enum EnemyType
     {
-        CorrectAir,
-        CorrectEarth,
-        CorrectWater,
-        CorrectInsect,
+        Air,
+        Earth,
+        Water,
+        Insect,
         MaxSize
     }
 
-    public List<Transform> correctPrefabsAir;
+    [SerializeField] public List<Transform> CorrectPrefabsAir;
 
-    public List<Transform> correctPrefabsEarth;
+    [SerializeField] public List<Transform> CorrectPrefabsEarth;
+
+    [SerializeField] public List<Transform> CorrectPrefabsWater;
+
+    [SerializeField] public List<Transform> CorrectPrefabInsect;
+
+    [SerializeField] public Transform CurrentPrefab;
     
-    public List<Transform> correctPrefabsWater;
-
-    public List<Transform> correctPrefabInsect;
-
-    public Transform currentPrefab;
-    
-    public void CreatePrefab(prefabType type, int numberOfPrefab)
+    public void CreatePrefab(EnemyType type, int numberOfPrefab)
     {
         switch (type)
         {
-            case prefabType.CorrectAir:
-                currentPrefab = Instantiate(correctPrefabsAir[numberOfPrefab], transform);
+            case EnemyType.Air:
+                CurrentPrefab = Instantiate(CorrectPrefabsAir[numberOfPrefab], transform);
                 break;
 
-            case prefabType.CorrectEarth:
-                currentPrefab = Instantiate(correctPrefabsEarth[numberOfPrefab], transform);
+            case EnemyType.Earth:
+                CurrentPrefab = Instantiate(CorrectPrefabsEarth[numberOfPrefab], transform);
                 break;
 
-            case prefabType.CorrectWater:
-                currentPrefab = Instantiate(correctPrefabsWater[numberOfPrefab], transform);
+            case EnemyType.Water:
+                CurrentPrefab = Instantiate(CorrectPrefabsWater[numberOfPrefab], transform);
                 break;
 
-            case prefabType.CorrectInsect:
-                currentPrefab = Instantiate(correctPrefabInsect[numberOfPrefab], transform);
+            case EnemyType.Insect:
+                CurrentPrefab = Instantiate(CorrectPrefabInsect[numberOfPrefab], transform);
                 break;
         }
     }
